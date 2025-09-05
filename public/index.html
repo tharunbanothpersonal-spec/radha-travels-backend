@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>RADHA TRAVELS | Car Rentals in Hyderabad</title>
+  <meta name="description" content="RADHA TRAVELS — Reliable car rentals in Hyderabad. Local rides, airport transfers, and outstation trips with transparent pricing and easy booking." />
+  <meta name="theme-color" content="#0ea5e9" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🚗</text></svg>">
+  <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
+<script>
+  (function(){
+    emailjs.init("pD6nfIaDF2cJycoQR");  // Replace with your EmailJS Public Key
+  })();
+</script>
+
+</head>
+<body>
+  <!-- Top Bar -->
+  <!-- <div class="topbar">
+    <div class="container topbar__content">
+      <span>📍 Hyderabad</span>
+      <a href="tel:+918332958915" class="topbar__link">📞 8332958915</a>
+      <a href="mailto:RADHA.TRAVELS.INFO@GMAIL.COM" class="topbar__link">✉️ radha.travels.info@gmail.com</a>
+    </div>
+  </div> -->
+
+  <!-- Header / Navigation -->
+  <header class="header">
+    <div class="container nav">
+      <a class="logo" href="#home" aria-label="RADHA TRAVELS Home">
+        <span class="logo__icon">🚗</span>
+        <span class="logo__text">RADHA <strong>TRAVELS</strong></span>
+      </a>
+
+      <button class="nav__toggle" aria-label="Open menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+
+      <nav class="nav__links" role="navigation">
+        <a href="#services">Services</a>
+        <a href="#fleet">Fleet</a>
+        <a href="#gallery">Gallery</a>   <!-- ✅ New link -->
+        <a href="#reviews">Reviews</a>   <!-- ✅ New link -->
+        <a href="#booking" class="btn btn--sm">Book Now</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <section id="home" class="hero">
+    <div class="container hero__grid">
+      <div class="hero__text">
+        <h1>Reliable Car Travel in <span class="accent">Hyderabad</span></h1>
+        <p>Local rides, Airport transfers, and Outstation trips — on time, every time. Transparent pricing and quick booking.</p>
+        <div class="hero__cta">
+          <a href="#booking" class="btn btn--primary">Book a Ride</a>
+          <a href="https://wa.me/918332958915?text=Hi%20RADHA%20TRAVELS%2C%20I%20want%20to%20book%20a%20car." class="btn btn--ghost" target="_blank" rel="noopener">WhatsApp Us</a>
+          <a href="tel:+918332958915" class="btn btn--primary">Call for enqury</a>
+        </div>
+        <ul class="hero__badges">
+          <li>✅ Professional Drivers</li>
+          <li>✅ Clean & Comfortable Cars</li>
+          <li>✅ 24×7 Support</li>
+        </ul>
+      </div>
+
+      <!-- Quick Estimate -->
+      <div class="hero__card">
+        <div class="card">
+          <div class="card__header">
+            <h3>Quick Estimate</h3>
+            <small>Get an instant fare estimate</small>
+          </div>
+
+          <form id="quick-estimate" class="form">
+            <div class="form__row">
+              <label for="serviceType">Service</label>
+              <select id="serviceType" name="serviceType" required>
+                <option value="local">Local (within city)</option>
+                <option value="airport">Airport Transfer</option>
+                <option value="outstation">Outstation</option>
+              </select>
+            </div>
+
+            <div class="form__row">
+              <label for="segment">Car Segment</label>
+              <select id="segment" name="segment" required>
+                <option value="hatchback">Hatchback</option>
+                <option value="sedan">Sedan</option>
+                <option value="suv">SUV</option>
+                <option value="premium_suv">Premium SUV</option>
+              </select>
+            </div>
+
+            <div class="form__row">
+              <label id="distanceLabel" for="distance">Estimated Distance (km)</label>
+              <input type="number" id="distance" name="distance" min="1" value="20" required />
+            </div>
+            <!-- Visible only for Local service -->
+<div class="form__row" id="hoursRow" style="display:none;">
+  <label for="hours">Estimated Hours</label>
+  <input type="number" id="hours" name="hours" min="1" value="8" />
+</div>
+            <!-- Visible only for Outstation -->
+            <div class="form__row" id="daysRow" style="display:none;">
+              <label for="days">No. of Days</label>
+              <input type="number" id="days" name="days" min="1" value="1" />
+            </div>
+            
+            <button class="btn btn--primary btn--full" type="submit">Calculate</button>
+            <p class="estimate__result" id="estimateResult">—</p>
+            <p class="estimate__hint" id="estimateHint"></p>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Services -->
+  <section id="services" class="section">
+    <div class="container">
+      <h2 class="section__title">Our Services</h2>
+      <div class="grid cards">
+        <article class="card card--hover"><div class="card__icon">🏙️</div><h3>Local Rides</h3><p>Door-to-door rides within Hyderabad. Hourly packages also available.</p></article>
+        <article class="card card--hover"><div class="card__icon">✈️</div><h3>Airport Transfers</h3><p>On-time pickup/drop at RGIA. Flight tracking & meet-and-greet on request.</p></article>
+        <article class="card card--hover"><div class="card__icon">🧭</div><h3>Outstation Trips</h3><p>Comfortable intercity journeys with experienced drivers and clean cars.</p></article>
+        <article class="card card--hover"><div class="card__icon">🏢</div><h3>Corporate Travel</h3><p>Monthly billing, dedicated support, and priority scheduling for businesses.</p></article>
+      </div>
+    </div>
+  </section>
+
+  <!-- Pricing -->
+ 
+
+  <!-- Fleet -->
+<section id="fleet" class="fleet-section">
+<div class="container">
+    <h2 class="section__title">Our Fleet</h2>
+  <div class="fleet-grid">
+    
+<!-- Swift -->
+<div class="car-card" data-car="swift">
+  <img src="images/Swift.jpg" alt="Swift">
+  <h3>Swift (Hatchback)</h3>
+  <p>Compact hatchback, best for solo or small family city rides.</p>
+  <button class="view-details" data-car="swift">View Details</button>
+</div>
+
+<!-- Etios -->
+<div class="car-card" data-car="etios">
+  <img src="images/etios.jpg" alt="Etios">
+  <h3>Etios (Sedan)</h3>
+  <p>Spacious sedan, comfortable for family travel within city or outstation.</p>
+  <button class="view-details" data-car="etios">View Details</button>
+</div>
+
+<!-- Ciaz -->
+<div class="car-card" data-car="ciaz">
+  <img src="images/ciaz.jpg" alt="Ciaz">
+  <h3>Ciaz (Sedan)</h3>
+  <p>Premium sedan offering extra legroom and smooth long drives.</p>
+  <button class="view-details" data-car="ciaz">View Details</button>
+</div>
+
+<!-- Ertiga -->
+<div class="car-card" data-car="ertiga">
+  <img src="images/ertiga.jpg" alt="Ertiga">
+  <h3>Ertiga (SUV)</h3>
+  <p>7-seater family SUV, perfect for group city rides or short outstations.</p>
+  <button class="view-details" data-car="ertiga">View Details</button>
+</div>
+
+<!-- Innova Crysta -->
+<div class="car-card" data-car="innova-crysta">
+  <img src="images/innova crysta.jpg" alt="Innova Crysta">
+  <h3>Innova Crysta (Premium SUV)</h3>
+  <p>Luxury 7-seater with premium comfort, ideal for long outstation trips.</p>
+  <button class="view-details" data-car="innova-crysta">View Details</button>
+</div>
+
+<!-- Innova Hycross -->
+<div class="car-card" data-car="innova-hycross">
+  <img src="images/innova hycross.jpg" alt="Innova Hycross">
+  <h3>Innova Hycross (Premium SUV)</h3>
+  <p>Hybrid premium SUV combining performance with luxury features.</p>
+  <button class="view-details" data-car="innova-hycross">View Details</button>
+</div>
+
+<!-- fortuner -->
+<div class="car-card" data-car="fortuner">
+  <img src="images/fortuner.jpg" alt="fortuner">
+  <h3>fortuner (Premium SUV)</h3>
+  <p>Hybrid premium SUV combining performance with luxury features.</p>
+  <button class="view-details" data-car="fortuner">View Details</button>
+</div>
+
+<!-- Traveller -->
+<div class="car-card" data-car="Traveller">
+  <img src="images/Traveller.jpg" alt="Traveller">
+  <h3>Traveller (BUS)</h3>
+  <p>Hybrid premium SUV combining performance with luxury features.</p>
+  <button class="view-details" data-car="Traveller">View Details</button>
+</div>
+</div>
+</section>
+
+<!-- Modal -->
+<div id="fleetModal" class="modal">
+  <div class="modal-content">
+    <span class="close">&times;</span>
+    <h3 id="carTitle"></h3>
+    <div id="carPricing"></div>
+    <a id="bookNow" href="#" target="_blank" class="book-btn">Book Now</a>
+  </div>
+</div>
+<!-- Gallery -->
+<section id="gallery" class="section">
+  <div class="container">
+    <h2 class="section__title">Gallery</h2>
+    <p class="section__subtitle">Real moments from our rides and trips.</p>
+    <div id="galleryGrid" class="gallery-grid"></div>
+  </div>
+</section>
+
+<!-- Gallery Modal -->
+<div id="galleryModal" class="modal">
+  <div class="modal-inner">
+    <span class="close">&times;</span>
+    <img id="galleryImg" src="" alt="Gallery preview">
+    <p id="galleryCaption"></p>
+  </div>
+</div>
+
+<section class="section" id="reviews">
+  <h2 class="section__title">Customer Reviews</h2>
+  <div class="review-summary-card">
+    <p class="avg-rating" id="avgRating">0.0</p>
+    <div id="avgStars" class="stars"></div>
+    <p><span id="reviewCount">0</span> reviews</p>
+
+    <div class="rating-breakdown" id="ratingBreakdown"></div>
+
+    <div class="review-buttons">
+      <button id="openReviewForm" class="btn btn--primary">Please Rate Us</button>
+      <button id="openReviews" class="btn">Read Reviews</button>
+    </div>
+  </div>
+</section>
+
+<!-- Review Form Modal -->
+<div id="reviewModal" class="modal">
+  <div class="review-form-card">
+    <span class="close" id="closeReviewModal">&times;</span>
+    <h3>Rate Your Experience</h3>
+    <div id="starInput" class="star-rating">
+      <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+    </div>
+    <input type="text" id="reviewerName" placeholder="Your Name (optional)">
+    <textarea id="reviewText" placeholder="Write your feedback..."></textarea>
+    <button id="submitReview" class="btn btn--primary btn--full">Submit</button>
+    <p id="thankyouMessage" style="display:none; margin-top:1rem; color:var(--accent); font-weight:600;"></p>
+  </div>
+</div>
+
+<!-- Reviews Modal -->
+<div id="reviewsModal" class="modal">
+  <div class="review-form-card">
+    <span class="close" id="closeReviewsModal">&times;</span>
+    <h3>All Reviews</h3>
+    <div id="reviewsList"></div>
+  </div>
+</div>
+
+
+<!-- Booking -->
+
+<section id="booking" class="section">
+  <div class="container">
+    <h2 class="section__title">Book Your Ride</h2>
+    <p class="section__subtitle">Quick, simple, and reliable</p>
+
+    <form id="bookingForm" class="booking card">
+
+      <!-- Common fields -->
+      <div class="form-grid">
+        <div class="form__row">
+          <label for="bk_name">Full Name</label>
+          <input type="text" id="bk_name" name="name" placeholder="Your full name" required>
+        </div>
+
+        <div class="form__row">
+          <label for="bk_phone">Phone Number</label>
+          <input type="tel" id="bk_phone" name="phone" inputmode="numeric" placeholder="10-digit mobile" required>
+        </div>
+
+        <div class="form__row">
+          <label for="bk_email">Email ID (optional)</label>
+          <input type="email" id="bk_email" name="email" placeholder="you@example.com">
+        </div>
+
+        <div class="form__row">
+          <label for="bk_service">Type of Service</label>
+          <select id="bk_service" name="service" required>
+            <option value="">Select service</option>
+            <option value="local">Local Service</option>
+            <option value="outstation">Outstation Service</option>
+            <option value="airport">Airport Transfer</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Dynamic fields render here -->
+      <div id="bk_dynamic"></div>
+
+      <div class="form__actions">
+        <button type="submit" class="btn btn--primary">Confirm Booking</button>
+      </div>
+
+      <p id="bookingMessage" class="form__message" aria-live="polite"></p>
+    </form>
+  </div>
+</section>
+<!-- Booking Success Modal -->
+<div id="bookingSuccessModal" class="modal">
+  <div class="modal-content glass">
+    <span class="close" id="closeBookingModal">&times;</span>
+    <h2>🎉 Thank You!</h2>
+    <p>Your booking has been submitted successfully.<br> We’ll contact you shortly.</p>
+    <button id="okBookingBtn" class="btn btn--primary">OK</button>
+  </div>
+</div>
+
+
+
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container footer__grid">
+      <div>
+        <a class="logo logo--invert" href="#home"><span class="logo__icon">🚗</span><span class="logo__text">RADHA <strong>TRAVELS</strong></span></a>
+        <p>Hyderabad’s trusted car travel partner.</p>
+      </div>
+      <div>
+        <h4>Contact</h4>
+        <ul class="list">
+          <li>📍 Hyderabad</li>
+          <li>📞 <a href="tel:+918332958915">8332958915</a></li>
+          <li>✉️ <a href="mailto:RADHA.TRAVELS.INFO@GMAIL.COM">radha.travels.info@gmail.com</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Quick Links</h4>
+        <ul class="list">
+          <li><a href="#services">Services</a></li>
+          <li><a href="#pricing">Pricing</a></li>
+          <li><a href="#booking">Book Now</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer__bottom">
+      <div class="container">
+        <small>© <span id="year"></span> RADHA TRAVELS. All rights reserved.</small>
+      </div>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
