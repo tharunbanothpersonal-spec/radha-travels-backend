@@ -8,10 +8,12 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 
 app.use(cors()); // ✅ allow frontend on Netlify to call this API
+app.use(express.json());   // ✅ JSON body parsing enabled globally
 
 const PUBLIC_DIR = path.join(__dirname, "public");
 const GALLERY_DIR = path.join(PUBLIC_DIR, "images", "gallery");
 const CAPTIONS_FILE = path.join(GALLERY_DIR, "captions.json");
+const REVIEWS_FILE = path.join(__dirname, "reviews.json");
 
 // Static files (optional: only if you want to serve images too)
 app.use("/images", express.static(path.join(PUBLIC_DIR, "images")));
@@ -59,19 +61,17 @@ app.listen(PORT, () => {
 });
 
 // === Reviews API ===
-const REVIEWS_FILE = path.join(__dirname, "reviews.json");
+
 
 // Load reviews from file
+// === Reviews API ===
 function loadReviews() {
   try {
-    const data = fs.readFileSync(REVIEWS_FILE, "utf8");
-    return JSON.parse(data);
+    return JSON.parse(fs.readFileSync(REVIEWS_FILE, "utf8"));
   } catch {
     return [];
   }
 }
-
-// Save reviews to file
 function saveReviews(reviews) {
   fs.writeFileSync(REVIEWS_FILE, JSON.stringify(reviews, null, 2));
 }
@@ -81,12 +81,11 @@ app.get("/api/reviews", (req, res) => {
   res.json(loadReviews());
 });
 
-// POST a new review
-app.use(express.json()); // ✅ allow JSON body
+// POST new review
 app.post("/api/reviews", (req, res) => {
   const { name, rating, text } = req.body;
   if (!rating || !text) {
-    return res.status(400).json({ error: "Rating and feedback are required" });
+    return res.status(400).json({ error: "Rating and feedback required" });
   }
   const reviews = loadReviews();
   const review = {
@@ -99,3 +98,5 @@ app.post("/api/reviews", (req, res) => {
   saveReviews(reviews);
   res.json({ success: true, review });
 });
+
+app.listen(PORT, () => console.log(`✅ Server running on port ${PORT}`));

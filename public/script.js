@@ -342,23 +342,29 @@ submitBtn?.addEventListener("click", async () => {
       body: JSON.stringify({ name, rating: selectedRating, text }),
     });
     const data = await res.json();
+
     if (data.success) {
-      addReviewCard(data.review);
-      loadReviews(); // refresh summary
-      // reset
+      // reload fresh reviews from backend
+      loadReviews();
+
+      // reset form
       document.getElementById("reviewerName").value = "";
       document.getElementById("reviewText").value = "";
       selectedRating = 0;
       starInput.querySelectorAll("span").forEach(s => s.classList.remove("active"));
+
+      // thank you message
       thankyouEl.textContent = "✅ Thank you for your valuable rating!";
       thankyouEl.style.display = "block";
       setTimeout(() => { thankyouEl.style.display = "none"; }, 3000);
+
       reviewModal.classList.remove("show");
     }
   } catch (err) {
     console.error("Failed to submit review:", err);
   }
 });
+
 
 // --- Update Summary
 function updateSummary(reviews) {
