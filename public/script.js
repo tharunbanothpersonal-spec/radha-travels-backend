@@ -179,7 +179,14 @@ document.addEventListener("DOMContentLoaded", () => {
 // === Auto Gallery with backend ===
 async function loadGallery() {
   try {
-    const res = await fetch("/api/gallery");
+    // Detect environment
+const backendBase =
+  window.location.hostname.includes("localhost")
+    ? "http://localhost:5000"
+    : "https://radha-travels-backend.onrender.com"; // 👈 replace with your Render URL
+
+// Fetch from backend
+const res = await fetch(`${backendBase}/api/gallery`);
     const galleryImages = await res.json();
 
     const galleryGrid = document.getElementById("galleryGrid");
@@ -273,9 +280,12 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 });
 
-// === Review System ===
-let reviews = JSON.parse(localStorage.getItem("reviews") || "[]");
+// === Review System with Backend ===
 let selectedRating = 0;
+const backendBase =
+  window.location.hostname.includes("localhost")
+    ? "http://localhost:5000"
+    : "https://radha-travels-backend.onrender.com"; // 👈 your Render backend
 
 // Elements
 const starInput = document.getElementById("starInput");
@@ -287,13 +297,23 @@ const reviewCountEl = document.getElementById("reviewCount");
 const thankyouEl = document.getElementById("thankyouMessage");
 const ratingBreakdownEl = document.getElementById("ratingBreakdown");
 
-// --- Render existing reviews on load
-function renderReviews() {
+// --- Load Reviews from backend
+async function loadReviews() {
+  try {
+    const res = await fetch(`${backendBase}/api/reviews`);
+    const data = await res.json();
+    renderReviews(data);
+  } catch (err) {
+    console.error("Error loading reviews:", err);
+  }
+}
+
+// --- Render Reviews
+function renderReviews(reviews) {
   reviewsList.innerHTML = "";
   reviews.forEach(r => addReviewCard(r, false));
-  updateSummary();
+  updateSummary(reviews);
 }
-renderReviews();
 
 // --- Star Selection
 if (starInput) {
@@ -307,7 +327,7 @@ if (starInput) {
 }
 
 // --- Submit Review
-submitBtn?.addEventListener("click", () => {
+submitBtn?.addEventListener("click", async () => {
   const name = document.getElementById("reviewerName").value || "Anonymous";
   const text = document.getElementById("reviewText").value.trim();
 
@@ -316,30 +336,37 @@ submitBtn?.addEventListener("click", () => {
     return;
   }
 
-  const review = { name, rating: selectedRating, text, date: new Date().toISOString() };
-  reviews.unshift(review);
-  localStorage.setItem("reviews", JSON.stringify(reviews));
+  try {
+    const res = await fetch(`${backendBase}/api/reviews`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ name, rating: selectedRating, text })
+    });
+    const review = await res.json();
 
-  updateSummary();
-  addReviewCard(review);
+    addReviewCard(review);
+    loadReviews(); // refresh summary
 
-  // Reset form
-  document.getElementById("reviewerName").value = "";
-  document.getElementById("reviewText").value = "";
-  selectedRating = 0;
-  starInput.querySelectorAll("span").forEach(s => s.classList.remove("active"));
+    // Reset form
+    document.getElementById("reviewerName").value = "";
+    document.getElementById("reviewText").value = "";
+    selectedRating = 0;
+    starInput.querySelectorAll("span").forEach(s => s.classList.remove("active"));
 
-  // Thank you message
-  thankyouEl.textContent = "✅ Thank you for your valuable rating!";
-  thankyouEl.style.display = "block";
-  setTimeout(() => { thankyouEl.style.display = "none"; }, 3000);
+    thankyouEl.textContent = "✅ Thank you for your valuable rating!";
+    thankyouEl.style.display = "block";
+    setTimeout(() => { thankyouEl.style.display = "none"; }, 3000);
 
-  reviewModal.classList.remove("show");
+    reviewModal.classList.remove("show");
+  } catch (err) {
+    console.error("Error submitting review:", err);
+    alert("Something went wrong, please try again.");
+  }
 });
 
 // --- Update Summary
-function updateSummary() {
-  if (reviews.length === 0) {
+function updateSummary(reviews) {
+  if (!reviews || reviews.length === 0) {
     avgRatingEl.textContent = "0.0";
     avgStarsEl.textContent = "";
     reviewCountEl.textContent = "0";
@@ -353,7 +380,6 @@ function updateSummary() {
   avgStarsEl.textContent = "★".repeat(Math.round(avg));
   reviewCountEl.textContent = reviews.length;
 
-  // Rating breakdown
   ratingBreakdownEl.innerHTML = "";
   for (let i = 5; i >= 1; i--) {
     const count = reviews.filter(r => r.rating === i).length;
@@ -381,24 +407,8 @@ function addReviewCard({ name, rating, text }, prepend = true) {
   else reviewsList.append(card);
 }
 
-// === Modal Controls ===
-const openReviewFormBtn = document.getElementById("openReviewForm");
-const reviewModal = document.getElementById("reviewModal");
-const closeReviewModal = document.getElementById("closeReviewModal");
-const openReviewsBtn = document.getElementById("openReviews");
-const reviewsModal = document.getElementById("reviewsModal");
-const closeReviewsModal = document.getElementById("closeReviewsModal");
-
-openReviewFormBtn?.addEventListener("click", () => reviewModal.classList.add("show"));
-closeReviewModal?.addEventListener("click", () => reviewModal.classList.remove("show"));
-
-openReviewsBtn?.addEventListener("click", () => reviewsModal.classList.add("show"));
-closeReviewsModal?.addEventListener("click", () => reviewsModal.classList.remove("show"));
-
-window.addEventListener("click", (e) => {
-  if (e.target === reviewModal) reviewModal.classList.remove("show");
-  if (e.target === reviewsModal) reviewsModal.classList.remove("show");
-});
+// --- Init ---
+document.addEventListener("DOMContentLoaded", loadReviews);
 
 // === Booking Form ===
 // === Booking Form (dynamic by service) ===

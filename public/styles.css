@@ -663,7 +663,6 @@ summary::-webkit-details-marker { display:none; }
   border-color: var(--accent, #22d3ee);
   box-shadow: 0 0 0 3px color-mix(in oklab, var(--accent, #22d3ee) 25%, transparent);
   background: #01091b;
-  border: dotted;
 }
 
 .inline-2 {
