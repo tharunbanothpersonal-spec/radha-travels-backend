@@ -56,10 +56,6 @@ app.get("/api/gallery", (req, res) => {
 // Health check (optional for Render)
 app.get("/api/health", (req, res) => res.json({ status: "ok" }));
 
-app.listen(PORT, () => {
-  console.log(`✅ Server running on port ${PORT}`);
-});
-
 // === Reviews API ===
 
 
