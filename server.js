@@ -58,52 +58,44 @@ app.listen(PORT, () => {
   console.log(`✅ Server running on port ${PORT}`);
 });
 
-// --- Reviews API ---
-const bodyParser = require("body-parser");
-app.use(bodyParser.json());
+// === Reviews API ===
+const REVIEWS_FILE = path.join(__dirname, "reviews.json");
 
-const DATA_DIR = path.join(__dirname, "data");
-const REVIEWS_FILE = path.join(DATA_DIR, "reviews.json");
-
-// Ensure data dir exists
-if (!fs.existsSync(DATA_DIR)) fs.mkdirSync(DATA_DIR);
-
-// Load reviews helper
+// Load reviews from file
 function loadReviews() {
   try {
-    const txt = fs.readFileSync(REVIEWS_FILE, "utf8");
-    return JSON.parse(txt);
+    const data = fs.readFileSync(REVIEWS_FILE, "utf8");
+    return JSON.parse(data);
   } catch {
     return [];
   }
 }
 
-// Save reviews helper
-function saveReviews(list) {
-  fs.writeFileSync(REVIEWS_FILE, JSON.stringify(list, null, 2));
+// Save reviews to file
+function saveReviews(reviews) {
+  fs.writeFileSync(REVIEWS_FILE, JSON.stringify(reviews, null, 2));
 }
 
 // GET all reviews
 app.get("/api/reviews", (req, res) => {
-  const reviews = loadReviews();
-  res.json(reviews);
+  res.json(loadReviews());
 });
 
-// POST new review
+// POST a new review
+app.use(express.json()); // ✅ allow JSON body
 app.post("/api/reviews", (req, res) => {
   const { name, rating, text } = req.body;
   if (!rating || !text) {
-    return res.status(400).json({ error: "Rating and text are required." });
+    return res.status(400).json({ error: "Rating and feedback are required" });
   }
+  const reviews = loadReviews();
   const review = {
-    id: Date.now(),
     name: name || "Anonymous",
     rating: Number(rating),
-    text: String(text),
+    text,
     date: new Date().toISOString(),
   };
-  const reviews = loadReviews();
   reviews.unshift(review);
   saveReviews(reviews);
-  res.json(review);
+  res.json({ success: true, review });
 });

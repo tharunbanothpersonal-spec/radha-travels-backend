@@ -285,7 +285,7 @@ let selectedRating = 0;
 const backendBase =
   window.location.hostname.includes("localhost")
     ? "http://localhost:5000"
-    : "https://radha-travels-backend.onrender.com"; // 👈 your Render backend
+    : "https://radha-travels-backend.onrender.com";
 
 // Elements
 const starInput = document.getElementById("starInput");
@@ -297,18 +297,17 @@ const reviewCountEl = document.getElementById("reviewCount");
 const thankyouEl = document.getElementById("thankyouMessage");
 const ratingBreakdownEl = document.getElementById("ratingBreakdown");
 
-// --- Load Reviews from backend
+// --- Fetch & render reviews
 async function loadReviews() {
   try {
     const res = await fetch(`${backendBase}/api/reviews`);
-    const data = await res.json();
-    renderReviews(data);
+    const reviews = await res.json();
+    renderReviews(reviews);
   } catch (err) {
-    console.error("Error loading reviews:", err);
+    console.error("Failed to load reviews:", err);
   }
 }
 
-// --- Render Reviews
 function renderReviews(reviews) {
   reviewsList.innerHTML = "";
   reviews.forEach(r => addReviewCard(r, false));
@@ -340,46 +339,41 @@ submitBtn?.addEventListener("click", async () => {
     const res = await fetch(`${backendBase}/api/reviews`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ name, rating: selectedRating, text })
+      body: JSON.stringify({ name, rating: selectedRating, text }),
     });
-    const review = await res.json();
-
-    addReviewCard(review);
-    loadReviews(); // refresh summary
-
-    // Reset form
-    document.getElementById("reviewerName").value = "";
-    document.getElementById("reviewText").value = "";
-    selectedRating = 0;
-    starInput.querySelectorAll("span").forEach(s => s.classList.remove("active"));
-
-    thankyouEl.textContent = "✅ Thank you for your valuable rating!";
-    thankyouEl.style.display = "block";
-    setTimeout(() => { thankyouEl.style.display = "none"; }, 3000);
-
-    reviewModal.classList.remove("show");
+    const data = await res.json();
+    if (data.success) {
+      addReviewCard(data.review);
+      loadReviews(); // refresh summary
+      // reset
+      document.getElementById("reviewerName").value = "";
+      document.getElementById("reviewText").value = "";
+      selectedRating = 0;
+      starInput.querySelectorAll("span").forEach(s => s.classList.remove("active"));
+      thankyouEl.textContent = "✅ Thank you for your valuable rating!";
+      thankyouEl.style.display = "block";
+      setTimeout(() => { thankyouEl.style.display = "none"; }, 3000);
+      reviewModal.classList.remove("show");
+    }
   } catch (err) {
-    console.error("Error submitting review:", err);
-    alert("Something went wrong, please try again.");
+    console.error("Failed to submit review:", err);
   }
 });
 
 // --- Update Summary
 function updateSummary(reviews) {
-  if (!reviews || reviews.length === 0) {
+  if (!reviews.length) {
     avgRatingEl.textContent = "0.0";
     avgStarsEl.textContent = "";
     reviewCountEl.textContent = "0";
     ratingBreakdownEl.innerHTML = "";
     return;
   }
-
   const total = reviews.reduce((sum, r) => sum + r.rating, 0);
   const avg = (total / reviews.length).toFixed(1);
   avgRatingEl.textContent = avg;
   avgStarsEl.textContent = "★".repeat(Math.round(avg));
   reviewCountEl.textContent = reviews.length;
-
   ratingBreakdownEl.innerHTML = "";
   for (let i = 5; i >= 1; i--) {
     const count = reviews.filter(r => r.rating === i).length;
@@ -389,8 +383,7 @@ function updateSummary(reviews) {
         <span>${i}★</span>
         <div class="progress"><div style="width:${percent}%"></div></div>
         <span>${count}</span>
-      </div>
-    `;
+      </div>`;
   }
 }
 
@@ -401,13 +394,12 @@ function addReviewCard({ name, rating, text }, prepend = true) {
   card.innerHTML = `
     <h4>${name}</h4>
     <div class="rating">${"★".repeat(rating)}</div>
-    <p>${text}</p>
-  `;
+    <p>${text}</p>`;
   if (prepend) reviewsList.prepend(card);
   else reviewsList.append(card);
 }
 
-// --- Init ---
+// Initial load
 document.addEventListener("DOMContentLoaded", loadReviews);
 
 // === Booking Form ===
