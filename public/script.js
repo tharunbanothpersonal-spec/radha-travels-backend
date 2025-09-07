@@ -287,6 +287,7 @@ const backendBase =
     ? "http://localhost:5000"
     : "https://radha-travels-backend.onrender.com";
 
+    
 // Elements
 const starInput = document.getElementById("starInput");
 const submitBtn = document.getElementById("submitReview");
@@ -407,6 +408,30 @@ function addReviewCard({ name, rating, text }, prepend = true) {
 
 // Initial load
 document.addEventListener("DOMContentLoaded", loadReviews);
+// === Review Modal Controls ===
+const openReviewFormBtn = document.getElementById("openReviewForm");
+const reviewModal = document.getElementById("reviewModal");
+const closeReviewModal = document.getElementById("closeReviewModal");
+const openReviewsBtn = document.getElementById("openReviews");
+const reviewsModal = document.getElementById("reviewsModal");
+const closeReviewsModal = document.getElementById("closeReviewsModal");
+
+// Open "Please rate us" form
+openReviewFormBtn?.addEventListener("click", () => reviewModal.classList.add("show"));
+// Close review form modal
+closeReviewModal?.addEventListener("click", () => reviewModal.classList.remove("show"));
+
+// Open reviews list
+openReviewsBtn?.addEventListener("click", () => reviewsModal.classList.add("show"));
+// Close reviews list
+closeReviewsModal?.addEventListener("click", () => reviewsModal.classList.remove("show"));
+
+// Close if clicked outside modal
+window.addEventListener("click", (e) => {
+  if (e.target === reviewModal) reviewModal.classList.remove("show");
+  if (e.target === reviewsModal) reviewsModal.classList.remove("show");
+});
+
 
 // === Booking Form ===
 // === Booking Form (dynamic by service) ===
