@@ -345,7 +345,6 @@ async function loadReviews() {
     console.error("Failed to load reviews:", err);
   }
 }
-
 function renderReviews(reviews) {
   const reviewsList = document.getElementById("reviewsList");
   if (!reviewsList) return;
@@ -445,7 +444,8 @@ function addReviewCard({ name, rating, comment }, prepend = true) {
   card.innerHTML = `
     <h4>${name}</h4>
     <div class="rating">${"★".repeat(rating)}${"☆".repeat(5 - rating)}</div>
-    <p>${comment}</p>`;
+    <p>${comment}</p>
+  `;
   if (prepend) reviewsList.prepend(card);
   else reviewsList.append(card);
 }
