@@ -370,11 +370,10 @@ submitBtn?.addEventListener("click", async () => {
   const name = document.getElementById("reviewerName").value || "Anonymous";
   const text = document.getElementById("reviewText").value.trim();
 
-  if (!selectedRating || !text) {
-    alert("Please select a rating and write your feedback.");
-    return;
-  }
-
+  if (!name.trim() || !selectedRating || !text) {
+  alert("Please enter your name, select a rating, and write your feedback.");
+  return;
+}
   try {
     const res = await fetch(`${backendBase}/api/reviews`, {
       method: "POST",
