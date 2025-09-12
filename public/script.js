@@ -1,6 +1,3 @@
-// ---------- Small UX & perf helpers (paste near top of script.js) ----------
-const BACKEND_BASE = window.location.hostname.includes('localhost') ? 'http://localhost:5000' : 'https://radha-travels-backend.onrender.com';
-
 // Intersection reveal helper (data-reveal attribute)
 (function wireReveal(){
   const obs = new IntersectionObserver((entries) => {
@@ -350,6 +347,9 @@ async function loadReviews() {
 }
 
 function renderReviews(reviews) {
+  const reviewsList = document.getElementById("reviewsList");
+  if (!reviewsList) return;
+
   reviewsList.innerHTML = "";
   reviews.forEach(r => addReviewCard(r, false));
   updateSummary(reviews);
@@ -380,11 +380,12 @@ submitBtn?.addEventListener("click", async () => {
     const res = await fetch(`${backendBase}/api/reviews`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ name, rating: selectedRating, text }),
+      body: JSON.stringify({ name, rating: selectedRating, comment: text }),
+
     });
     const data = await res.json();
 
-    if (data.success) {
+    if (!data.error) {
       // reload fresh reviews from backend
       loadReviews();
 
@@ -435,13 +436,16 @@ function updateSummary(reviews) {
 }
 
 // --- Add Review Card
-function addReviewCard({ name, rating, text }, prepend = true) {
+function addReviewCard({ name, rating, comment }, prepend = true) {
+  const reviewsList = document.getElementById("reviewsList");
+  if (!reviewsList) return;
+
   const card = document.createElement("div");
   card.className = "review-card";
   card.innerHTML = `
     <h4>${name}</h4>
-    <div class="rating">${"★".repeat(rating)}</div>
-    <p>${text}</p>`;
+    <div class="rating">${"★".repeat(rating)}${"☆".repeat(5 - rating)}</div>
+    <p>${comment}</p>`;
   if (prepend) reviewsList.prepend(card);
   else reviewsList.append(card);
 }
@@ -691,3 +695,12 @@ document.getElementById("closeBookingModal").onclick = () => {
 
   function cap(s) { return String(s || "").replace(/_/g," ").replace(/\b\w/g, c => c.toUpperCase()); }
 })();
+//for review link
+document.addEventListener("DOMContentLoaded", () => {
+  loadReviews();
+
+  // 🔗 Auto open review modal if link contains #writeReview
+  if (window.location.hash === "#writeReview") {
+    document.getElementById("reviewModal").classList.add("show");
+  }
+});
