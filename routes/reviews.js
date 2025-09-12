@@ -30,6 +30,8 @@ router.get('/', (req, res) => {
 router.post('/', (req, res) => {
   const { name, rating, comment } = req.body || {};
 
+   console.log("Incoming review:", req.body);  // 🔍 Debug log
+
   // ✅ Require all 3 fields
   if (!name || !rating || !comment) {
     return res.status(400).json({ error: 'name, rating, and comment are required' });

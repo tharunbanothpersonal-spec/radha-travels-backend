@@ -370,15 +370,19 @@ submitBtn?.addEventListener("click", async () => {
   const name = document.getElementById("reviewerName").value || "Anonymous";
   const text = document.getElementById("reviewText").value.trim();
 
-  if (!name.trim() || !selectedRating || !text) {
-  alert("Please enter your name, select a rating, and write your feedback.");
+  if (!name.trim() || selectedRating < 1 || !text) {
+  alert("Please enter your name, select at least 1 star, and write your feedback.");
   return;
 }
   try {
     const res = await fetch(`${backendBase}/api/reviews`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ name, rating: selectedRating, comment: text }),
+      body: JSON.stringify({
+  name: document.getElementById("reviewerName").value.trim(),
+  rating: selectedRating,
+  comment: document.getElementById("reviewText").value.trim()
+}),
 
     });
     const data = await res.json();
