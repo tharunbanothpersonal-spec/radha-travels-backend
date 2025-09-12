@@ -375,6 +375,7 @@ submitBtn?.addEventListener("click", async () => {
   return;
 }
   try {
+    console.log("Sending review:", { name, rating: selectedRating, comment: text }); // 👈 add this
     const res = await fetch(`${backendBase}/api/reviews`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },

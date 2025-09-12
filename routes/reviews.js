@@ -33,10 +33,9 @@ router.post('/', (req, res) => {
    console.log("Incoming review:", req.body);  // 🔍 Debug log
 
   // ✅ Require all 3 fields
-  if (!name || !rating || !comment) {
-    return res.status(400).json({ error: 'name, rating, and comment are required' });
-  }
-
+  if (!name || typeof rating === "undefined" || !comment) {
+  return res.status(400).json({ error: 'name, rating, and comment are required' });
+}
   const reviews = readReviews();
   const newReview = {
     id: Date.now(),

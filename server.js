@@ -3,12 +3,17 @@ const express = require("express");
 const path = require("path");
 const cors = require("cors");
 const fs = require("fs");
+const reviewsRouter = require("./routes/reviews");
+
 
 const app = express();
 const PORT = process.env.PORT || 10000;
 
 app.use(cors()); // ✅ allow frontend on Netlify to call this API
 app.use(express.json());   // ✅ JSON body parsing enabled globally
+app.use(express.urlencoded({ extended: true }));
+app.use("/api/reviews", reviewsRouter);
+
 
 const PUBLIC_DIR = path.join(__dirname, "public");
 const GALLERY_DIR = path.join(PUBLIC_DIR, "images", "gallery");
