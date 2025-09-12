@@ -1,3 +1,40 @@
+// ---------- Small UX & perf helpers (paste near top of script.js) ----------
+const BACKEND_BASE = window.location.hostname.includes('localhost') ? 'http://localhost:5000' : 'https://radha-travels-backend.onrender.com';
+
+// Intersection reveal helper (data-reveal attribute)
+(function wireReveal(){
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('is-visible');
+        obs.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.12 });
+  document.querySelectorAll('[data-reveal]').forEach(el => obs.observe(el));
+})();
+
+// Lazy load gallery images (use loading="lazy" and fallback)
+function lazyLoadGalleryImgs() {
+  document.querySelectorAll('#galleryGrid img').forEach(img => {
+    if (!('loading' in HTMLImageElement.prototype)) {
+      // polyfill or intersection observer
+      const io = new IntersectionObserver((entries, o) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            img.src = img.dataset.src;
+            img.removeAttribute('data-src');
+            o.unobserve(img);
+          }
+        });
+      });
+      io.observe(img);
+    } else {
+      // native: do nothing (we set loading="lazy" when building HTML)
+    }
+  });
+}
+
 // === Configurable Pricing (INR) ===
 const PRICING = {
   local: {
@@ -192,12 +229,15 @@ const res = await fetch(`${backendBase}/api/gallery`);
     const galleryGrid = document.getElementById("galleryGrid");
     if (!galleryGrid) return;
 
-    galleryGrid.innerHTML = galleryImages.map(img =>
-      `<figure class="gal-item">
-        <img src="${img.src}" alt="${img.caption}">
-        <figcaption>${img.caption}</figcaption>
-      </figure>`
-    ).join("");
+    // build gallery items — use loading lazy and data-src for polyfill
+galleryGrid.innerHTML = galleryImages.map(img =>
+  `<figure class="gal-item" data-reveal>
+     <img src="${img.src}" alt="${img.caption}" loading="lazy" data-src="${img.src}">
+     <figcaption>${img.caption}</figcaption>
+   </figure>` ).join('');
+// then initialize lazy loader + reveal
+lazyLoadGalleryImgs();
+document.querySelectorAll('#galleryGrid figure').forEach(f => f.classList.add('is-visible')); // or rely on observer
 
     // Modal logic
     const galleryModal   = document.getElementById("galleryModal");
