@@ -14,6 +14,7 @@
 <!-- improves font swap behavior and performance -->
 
   <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🚗</text></svg>">
   <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
 <script>
@@ -36,8 +37,8 @@
   <!-- Header / Navigation -->
   <header class="header">
     <div class="container nav">
-      <a class="logo" href="#home" aria-label="RADHA TRAVELS Home">
-        <span class="logo__icon"><img src="images/radha travels logo.jpg" alt="Swift"></span>
+      <a class="logo" href="#" aria-label="RADHA TRAVELS Home">
+       <img src="images/radha travels logo.jpg" alt="Radha Travels Logo" class="logo__img">
         <span class="logo__text">RADHA <strong>TRAVELS</strong></span>
       </a>
 
@@ -50,93 +51,150 @@
         <a href="#fleet">Fleet</a>
         <a href="#gallery">Gallery</a>   <!-- ✅ New link -->
         <a href="#reviews">Reviews</a>   <!-- ✅ New link -->
+        <a href="#aboutus">About Us</a>   <!-- ✅ New link -->
         <a href="#booking" class="btn btn--sm">Book Now</a>
       </nav>
     </div>
   </header>
-
-  <!-- Hero -->
-  <section id="home" class="hero">
-    <div class="container hero__grid">
-      <div class="hero__text">
-        <h1>Reliable Car Travel in <span class="accent">Hyderabad</span></h1>
-        <p>Local rides, Airport transfers, and Outstation trips — on time, every time. Transparent pricing and quick booking.</p>
-        <div class="hero__cta">
-          <a href="#booking" class="btn btn--primary">Book a Ride</a>
-          <a href="https://wa.me/918332958915?text=Hi%20RADHA%20TRAVELS%2C%20I%20want%20to%20book%20a%20car." class="btn btn--ghost" target="_blank" rel="noopener">WhatsApp Us</a>
-          <a href="tel:+918332958915" class="btn btn--primary">Call for enqury</a>
-        </div>
-        <ul class="hero__badges">
-          <li>✅ Professional Drivers</li>
-          <li>✅ Clean & Comfortable Cars</li>
-          <li>✅ 24×7 Support</li>
-        </ul>
-      </div>
-
-      <!-- Quick Estimate -->
-      <div class="hero__card">
-        <div class="card">
-          <div class="card__header">
-            <h3>Quick Estimate</h3>
-            <small>Get an instant fare estimate</small>
-          </div>
-
-          <form id="quick-estimate" class="form">
-            <div class="form__row">
-              <label for="serviceType">Service</label>
-              <select id="serviceType" name="serviceType" required>
-                <option value="local">Local (within city)</option>
-                <option value="airport">Airport Transfer</option>
-                <option value="outstation">Outstation</option>
-              </select>
-            </div>
-
-            <div class="form__row">
-              <label for="segment">Car Segment</label>
-              <select id="segment" name="segment" required>
-                <option value="hatchback">Hatchback</option>
-                <option value="sedan">Sedan</option>
-                <option value="suv">SUV</option>
-                <option value="premium_suv">Premium SUV</option>
-              </select>
-            </div>
-
-            <div class="form__row">
-              <label id="distanceLabel" for="distance">Estimated Distance (km)</label>
-              <input type="number" id="distance" name="distance" min="1" value="20" required />
-            </div>
-            <!-- Visible only for Local service -->
-<div class="form__row" id="hoursRow" style="display:none;">
-  <label for="hours">Estimated Hours</label>
-  <input type="number" id="hours" name="hours" min="1" value="8" />
+<!-- Main Hero Layout -->
+<section class="hero-full">
+  <!-- put this at the top inside <section class="hero-full"> -->
+<div class="hero-scroller" aria-hidden="false">
+  <div class="hero-scroller__inner container">
+    <div class="hero-scroller__text">
+      <!-- replace text with your messages or keep marquee fallback -->
+      <span>🚖 Special Offer: Flat 10% Off on Outstation Trips</span>
+      <span>✈️ Airport Transfers from ₹1100</span>
+      <span>🚗 Premium SUVs Available</span>
+    </div>
+    <!-- optional manual controls -->
+    <!-- <button class="scroller-close" aria-label="Hide updates">×</button> -->
+  </div>
 </div>
-            <!-- Visible only for Outstation -->
-            <div class="form__row" id="daysRow" style="display:none;">
-              <label for="days">No. of Days</label>
-              <input type="number" id="days" name="days" min="1" value="1" />
-            </div>
-            
-            <button class="btn btn--primary btn--full" type="submit">Calculate</button>
-            <p class="estimate__result" id="estimateResult">—</p>
-            <p class="estimate__hint" id="estimateHint"></p>
-          </form>
-        </div>
+  <!-- === Background Slider === -->
+  <div class="hero-slider">
+    <div class="hero-slide active" data-bg="images/gallery/4_lc_300_121654.jpg"></div>
+    <div class="hero-slide active" data-bg="images/Swift.jpg">
+      <div class="hero-content">
+        <h1>Reliable Car Travel in Hyderabad</h1>
+        <p>Local rides, Airport transfers, and Outstation trips — on time, every time.</p>
       </div>
     </div>
-  </section>
+    <div class="hero-slide active" data-bg="images/fortuner.jpg"></div>
+  </div>
+    <div class="hero-slide" data-bg="images/innova\ crysta.jpg">
+      <div class="hero-content">
+        <h1>Airport Transfers Made Easy</h1>
+        <p>On-time pickup & drop with flight tracking.</p>
+      </div>
+    </div>
+    <div class="hero-slide" data-bg="images/hero_image.jpg">
+      <div class="hero-content">
+        <h1>Outstation Trips</h1>
+        <p>Travel comfortably with experienced drivers.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Slider Dots -->
+  <div class="hero-dots"></div>
+
+<!-- === Hero Buttons (desktop left/right, mobile bottom bar) === -->
+<div class="hero-buttons-desktop">
+  <div class="hero-buttons-left">
+    <a href="#services" class="hero-card">🚖 Explore Services</a>
+    <a href="#booking" class="hero-card">📅 Book a Ride</a>
+    <a href="tel:+918332958915" class="hero-card">📞 Call Us</a>
+  </div>
+
+  <div class="hero-buttons-right">
+    <button id="openEstimator" class="hero-card">⚡ Quick Estimate</button>
+  </div>
+</div>
+
+<!-- Mobile Action Bar -->
+<div class="hero-action-bar">
+  <a href="#services" class="hero-action">🚖<span>Services</span></a>
+  <a href="#booking" class="hero-action">📅<span>Book</span></a>
+  <a href="tel:+918332958915" class="hero-action">📞<span>Call</span></a>
+  <button id="openEstimatorMobile" class="hero-action">⚡<span>Estimate</span></button>
+</div>
+
+
+<!-- === Estimator Drawer === -->
+  <div id="estimatorBox" class="estimator-box">
+    <div class="estimator-inner">
+      <div class="estimator-header">
+  <h3>Quick Estimate</h3>
+  <button id="closeEstimator" class="close-btn" aria-label="Close">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <line x1="18" y1="6" x2="6" y2="18"/>
+      <line x1="6" y1="6" x2="18" y2="18"/>
+    </svg>
+  </button>
+</div>
+      <form id="quick-estimate" class="form">
+        <label for="serviceType">Service</label>
+        <select id="serviceType" name="serviceType" required>
+          <option value="local">Local</option>
+          <option value="airport">Airport</option>
+          <option value="outstation">Outstation</option>
+        </select>
+
+        <label for="segment">Car Segment</label>
+        <select id="segment" name="segment" required>
+          <option value="hatchback">Hatchback</option>
+          <option value="sedan">Sedan</option>
+          <option value="suv">SUV</option>
+          <option value="premium_suv">Premium SUV</option>
+        </select>
+
+        <label for="distance" id="distanceLabel">Estimated Distance (km)</label>
+        <input type="number" id="distance" name="distance" placeholder="Enter distance">
+
+        <div id="hoursRow">
+          <label for="hours">Estimated Hours</label>
+          <input type="number" id="hours" name="hours" placeholder="Enter hours">
+        </div>
+
+        <div id="daysRow">
+          <label for="days">Number of Days</label>
+          <input type="number" id="days" name="days" min="1" value="1">
+        </div>
+
+        <button type="submit" class="btn btn--primary">Calculate</button>
+
+        <p id="estimateResult" class="estimate__result"></p>
+        <p id="estimateHint" class="estimate__hint"></p>
+      </form>
+    </div>
+  </div>
+
+  <div id="estimatorOverlay" class="estimator-overlay"></div>
+</section>
 
   <!-- Services -->
   <section id="services" class="section">
     <div class="container">
       <h2 class="section__title">Our Services</h2>
       <div class="grid cards">
-        <article class="card card--hover"><div class="card__icon">🏙️</div><h3>Local Rides</h3><p>Door-to-door rides within Hyderabad. Hourly packages also available.</p></article>
-        <article class="card card--hover"><div class="card__icon">✈️</div><h3>Airport Transfers</h3><p>On-time pickup/drop at RGIA. Flight tracking & meet-and-greet on request.</p></article>
-        <article class="card card--hover"><div class="card__icon">🧭</div><h3>Outstation Trips</h3><p>Comfortable intercity journeys with experienced drivers and clean cars.</p></article>
-        <article class="card card--hover"><div class="card__icon">🏢</div><h3>Corporate Travel</h3><p>Monthly billing, dedicated support, and priority scheduling for businesses.</p></article>
+        <article class="card card--hover" data-service="local"><div class="card__icon">🏙️</div><h3>Local Rides</h3><p>Door-to-door rides within Hyderabad. Hourly packages also available.</p></article>
+        <article class="card card--hover" data-service="airport"><div class="card__icon">✈️</div><h3>Airport Transfers</h3><p>On-time pickup/drop at RGIA. Flight tracking & meet-and-greet on request.</p></article>
+        <article class="card card--hover" data-service="outstation"><div class="card__icon">🧭</div><h3>Outstation Trips</h3><p>Comfortable intercity journeys with experienced drivers and clean cars.</p></article>
+        <article class="card card--hover" data-service="corporate"><div class="card__icon">🏢</div><h3>Corporate Travel</h3><p>Monthly billing, dedicated support, and priority scheduling for businesses.</p></article>
       </div>
     </div>
   </section>
+  <!-- Service Modal -->
+<div id="serviceModal" class="modal">
+  <div class="modal-content">
+    <span class="close" id="closeServiceModal">&times;</span>
+    <h3 id="serviceTitle"></h3>
+    <p id="serviceDescription"></p>
+    <ul id="serviceFeatures"></ul>
+  </div>
+</div>
+
 
   <!-- Pricing -->
  
@@ -152,7 +210,7 @@
   <img src="images/Swift.jpg" alt="Swift">
   <h3>Swift (Hatchback)</h3>
   <p>Compact hatchback, best for solo or small family city rides.</p>
-  <button class="view-details" data-car="swift">View Details</button>
+  <!-- <button class="view-details" data-car="swift">View Details</button> -->
 </div>
 
 <!-- Etios -->
@@ -160,7 +218,7 @@
   <img src="images/etios.jpg" alt="Etios">
   <h3>Etios (Sedan)</h3>
   <p>Spacious sedan, comfortable for family travel within city or outstation.</p>
-  <button class="view-details" data-car="etios">View Details</button>
+  <!-- <button class="view-details" data-car="etios">View Details</button> -->
 </div>
 
 <!-- Ciaz -->
@@ -168,7 +226,7 @@
   <img src="images/ciaz.jpg" alt="Ciaz">
   <h3>Ciaz (Sedan)</h3>
   <p>Premium sedan offering extra legroom and smooth long drives.</p>
-  <button class="view-details" data-car="ciaz">View Details</button>
+  <!-- <button class="view-details" data-car="ciaz">View Details</button> -->
 </div>
 
 <!-- Ertiga -->
@@ -176,7 +234,7 @@
   <img src="images/ertiga.jpg" alt="Ertiga">
   <h3>Ertiga (SUV)</h3>
   <p>7-seater family SUV, perfect for group city rides or short outstations.</p>
-  <button class="view-details" data-car="ertiga">View Details</button>
+  <!-- <button class="view-details" data-car="ertiga">View Details</button> -->
 </div>
 
 <!-- Innova Crysta -->
@@ -184,7 +242,7 @@
   <img src="images/innova crysta.jpg" alt="Innova Crysta">
   <h3>Innova Crysta (Premium SUV)</h3>
   <p>Luxury 7-seater with premium comfort, ideal for long outstation trips.</p>
-  <button class="view-details" data-car="innova-crysta">View Details</button>
+  <!-- <button class="view-details" data-car="innova-crysta">View Details</button> -->
 </div>
 
 <!-- Innova Hycross -->
@@ -192,7 +250,7 @@
   <img src="images/innova hycross.jpg" alt="Innova Hycross">
   <h3>Innova Hycross (Premium SUV)</h3>
   <p>Hybrid premium SUV combining performance with luxury features.</p>
-  <button class="view-details" data-car="innova-hycross">View Details</button>
+  <!-- <button class="view-details" data-car="innova-hycross">View Details</button> -->
 </div>
 
 <!-- fortuner -->
@@ -200,7 +258,7 @@
   <img src="images/fortuner.jpg" alt="fortuner">
   <h3>fortuner (Premium SUV)</h3>
   <p>Hybrid premium SUV combining performance with luxury features.</p>
-  <button class="view-details" data-car="fortuner">View Details</button>
+  <!-- <button class="view-details" data-car="fortuner">View Details</button> -->
 </div>
 
 <!-- Traveller -->
@@ -208,7 +266,7 @@
   <img src="images/Traveller.jpg" alt="Traveller">
   <h3>Traveller (BUS)</h3>
   <p>Hybrid premium SUV combining performance with luxury features.</p>
-  <button class="view-details" data-car="Traveller">View Details</button>
+  <!-- <button class="view-details" data-car="Traveller">View Details</button> -->
 </div>
 </div>
 </section>
@@ -240,6 +298,7 @@
   </div>
 </div>
 
+<!-- review and rating section-->
 <section class="section" id="reviews">
   <h2 class="section__title">Customer Reviews</h2>
   <div class="review-summary-card">
@@ -338,15 +397,14 @@
     <button id="okBookingBtn" class="btn btn--primary">OK</button>
   </div>
 </div>
-
-
-
-
   <!-- Footer -->
   <footer class="footer">
     <div class="container footer__grid">
       <div>
-        <a class="logo logo--invert" href="#home"><span class="logo__icon">🚗</span><span class="logo__text">RADHA <strong>TRAVELS</strong></span></a>
+        <a href="#" class="footer-logo">
+  <img src="images/radha travels logo.jpg" alt="Radha Travels Logo" class="footer-logo__img">
+  <span class="footer-logo__text">Radha Travels</span>
+</a>
         <p>Hyderabad’s trusted car travel partner.</p>
       </div>
       <div>
@@ -365,6 +423,26 @@
           <li><a href="#booking">Book Now</a></li>
         </ul>
       </div>
+<!-- Floating Social Bar -->
+<div class="social-bar">
+  <a href="https://www.facebook.com/radhatravels.in/" target="_blank" class="tooltip" data-label="Facebook">
+    <img src="images/social/facebook.png" alt="Facebook">
+  </a>
+  <a href="https://www.instagram.com/radhatravelshyd/" target="_blank" class="tooltip" data-label="Instagram">
+    <img src="images/social/instagram.png" alt="Instagram">
+  </a>
+  <a href="https://x.com/RadhatravelsHYD" target="_blank" class="tooltip" data-label="X">
+    <img src="images/social/twitter.png" alt="X">
+  </a>
+  <a href="https://wa.me/918332958915" target="_blank" class="tooltip" data-label="WhatsApp">
+    <img src="images/social/whatsapp.png" alt="WhatsApp">
+  </a>
+  <a href="tel:+918332958915" class="tooltip" data-label="Phone">
+    <img src="images/social/phone.png" alt="Phone">
+  </a>
+</div>
+
+
     </div>
     <div class="footer__bottom">
       <div class="container">

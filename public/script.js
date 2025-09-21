@@ -65,16 +65,6 @@ const byId = (id) => document.getElementById(id);
 const yearEl = byId('year');
 if (yearEl) yearEl.textContent = new Date().getFullYear();
 
-// === Mobile menu ===
-const toggle = document.querySelector('.nav__toggle');
-const links  = document.querySelector('.nav__links');
-if (toggle && links) {
-  toggle.addEventListener('click', () => {
-    const open = links.classList.toggle('open');
-    toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
-  });
-}
-
 // === Quick Estimate ===
 const estimateForm   = byId('quick-estimate');
 const estimateResult = byId('estimateResult');
@@ -184,7 +174,7 @@ document.addEventListener("DOMContentLoaded", () => {
       </table>`;
   }
 
-  document.querySelectorAll(".view-details").forEach(btn => {
+  document.querySelectorAll(".car-card").forEach(btn => {
     btn.addEventListener("click", () => {
       const carKey = btn.dataset.car;
       const segKey = carKey.includes("etios") || carKey.includes("ciaz") ? "sedan"
@@ -707,4 +697,181 @@ document.addEventListener("DOMContentLoaded", () => {
   if (window.location.hash === "#writeReview") {
     document.getElementById("reviewModal").classList.add("show");
   }
+});
+//service model working
+document.addEventListener("DOMContentLoaded", () => {
+  const serviceModal = document.getElementById("serviceModal");
+  const closeServiceModal = document.getElementById("closeServiceModal");
+  const serviceTitle = document.getElementById("serviceTitle");
+  const serviceDescription = document.getElementById("serviceDescription");
+  const serviceFeatures = document.getElementById("serviceFeatures");
+
+  // service details
+  const SERVICE_DETAILS = {
+    local: {
+      title: "Local Rides",
+      description: "Affordable rides within Hyderabad city limits with flexible packages.",
+      features: [
+        "8 Hr / 80 Km base package",
+        "Well-maintained Hatchbacks, Sedans, and SUVs",
+        "Extra hours and kilometers at nominal rates",
+        "Professional, uniformed drivers"
+      ]
+    },
+    airport: {
+      title: "Airport Transfers",
+      description: "On-time pickup and drop services for RGIA Airport.",
+      features: [
+        "Flat rates for pickup and drop",
+        "Meet & greet option available",
+        "Flight tracking for timely arrivals",
+        "24/7 availability"
+      ]
+    },
+    outstation: {
+      title: "Outstation Trips",
+      description: "Travel to nearby cities and towns in comfort.",
+      features: [
+        "Minimum 300 km/day",
+        "Clean and spacious cars",
+        "Experienced drivers for long trips",
+        "Flexible pickup/drop points"
+      ]
+    },
+    corporate: {
+      title: "Corporate Travel",
+      description: "Business travel solutions for companies.",
+      features: [
+        "Monthly billing support",
+        "Dedicated account manager",
+        "Priority scheduling for executives",
+        "Wide range of vehicle choices"
+      ]
+    }
+  };
+
+  document.querySelectorAll(".card[data-service]").forEach(card => {
+    card.addEventListener("click", () => {
+      const key = card.dataset.service;
+      const details = SERVICE_DETAILS[key];
+      if (!details) return;
+
+      serviceTitle.textContent = details.title;
+      serviceDescription.textContent = details.description;
+      serviceFeatures.innerHTML = details.features.map(f => `<li>${f}</li>`).join("");
+
+      serviceModal.classList.add("show");
+    });
+  });
+
+  closeServiceModal.addEventListener("click", () => {
+    serviceModal.classList.remove("show");
+  });
+
+  serviceModal.addEventListener("click", (e) => {
+    if (!e.target.closest(".modal-content")) {
+      serviceModal.classList.remove("show");
+    }
+  });
+});
+// for logo scrolling
+document.addEventListener("scroll", () => {
+  const header = document.querySelector(".header");
+  if (window.scrollY > 40) {
+    header.classList.add("scrolled");
+  } else {
+    header.classList.remove("scrolled");
+  }
+});
+// nav toggle
+const navToggle = document.querySelector(".nav__toggle");
+const navLinks = document.querySelector(".nav__links");
+const navItems = document.querySelectorAll(".nav__links a");
+
+if (navToggle && navLinks) {
+  // Toggle menu open/close
+  navToggle.addEventListener("click", () => {
+    navToggle.classList.toggle("open");
+    navLinks.classList.toggle("open");
+  });
+
+  // Close menu when clicking a link
+  navItems.forEach(link => {
+    link.addEventListener("click", () => {
+      navToggle.classList.remove("open");
+      navLinks.classList.remove("open");
+    });
+  });
+}
+// === Hero Slider ===
+document.addEventListener("DOMContentLoaded", () => {
+  const slides = document.querySelectorAll(".hero-slide");
+  const dotsContainer = document.querySelector(".hero-dots");
+
+  // Assign CSS variable for images
+  slides.forEach(slide => {
+    const bg = slide.getAttribute("data-bg");
+    slide.style.setProperty("--hero-bg", `url(${bg})`);
+  });
+
+  // Setup dots
+  slides.forEach((_, i) => {
+    const dot = document.createElement("button");
+    if (i === 0) dot.classList.add("active");
+    dot.addEventListener("click", () => showSlide(i));
+    dotsContainer.appendChild(dot);
+  });
+
+  let current = 0;
+  function showSlide(i) {
+    slides[current].classList.remove("active");
+    dotsContainer.children[current].classList.remove("active");
+    slides[i].classList.add("active");
+    dotsContainer.children[i].classList.add("active");
+    current = i;
+  }
+
+  // Auto play
+  setInterval(() => {
+    let next = (current + 1) % slides.length;
+    showSlide(next);
+  }, 5000);
+});
+
+// === Estimator Drawer ===
+// === Estimator Elements ===
+const estimatorBox = document.getElementById("estimatorBox");
+const estimatorOverlay = document.getElementById("estimatorOverlay");
+const openEstimatorBtn = document.getElementById("openEstimator");
+const closeEstimatorBtn = document.getElementById("closeEstimator");
+const quickEstimateForm = document.getElementById("quick-estimate");
+
+// --- Open Estimator ---
+openEstimatorBtn?.addEventListener("click", () => {
+  estimatorBox.classList.add("show");
+  estimatorOverlay.classList.add("show");
+});
+
+// --- Close + Reset Estimator ---
+function closeEstimator() {
+  estimatorBox.classList.remove("show");
+  estimatorOverlay.classList.remove("show");
+
+  // Reset form + results
+  if (quickEstimateForm) quickEstimateForm.reset();
+  const resultEl = document.getElementById("estimateResult");
+  const hintEl = document.getElementById("estimateHint");
+  if (resultEl) resultEl.textContent = "";
+  if (hintEl) hintEl.textContent = "";
+}
+
+// Close on X button
+closeEstimatorBtn?.addEventListener("click", closeEstimator);
+
+// Close when clicking overlay
+estimatorOverlay?.addEventListener("click", closeEstimator);
+
+document.getElementById("openEstimatorMobile")?.addEventListener("click", () => {
+  document.getElementById("estimatorBox").classList.add("show");
+  document.getElementById("estimatorOverlay").classList.add("show");
 });
