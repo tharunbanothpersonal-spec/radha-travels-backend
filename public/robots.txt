@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://radha-travels-hyd.netlify.app/sitemap.xml
