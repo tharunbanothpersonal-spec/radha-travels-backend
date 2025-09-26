@@ -1,2 +1,6 @@
 [build]
   publish = "public"
+[[redirects]]
+  from = "/sitemap.xml"
+  to = "/sitemap.xml"
+  status = 200
