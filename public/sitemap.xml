@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+
+  <!-- Homepage -->
+  <url>
+    <loc>https://radha-travels-hyd.netlify.app/</loc>
+    <priority>1.0</priority>
+  </url>
+
+  <!-- Services Section -->
+  <url>
+    <loc>https://radha-travels-hyd.netlify.app/#services</loc>
+    <priority>0.9</priority>
+  </url>
+
+  <!-- Fleet Section -->
+  <url>
+    <loc>https://radha-travels-hyd.netlify.app/#fleet</loc>
+    <priority>0.9</priority>
+  </url>
+
+  <!-- Booking Section -->
+  <url>
+    <loc>https://radha-travels-hyd.netlify.app/#booking</loc>
+    <priority>0.9</priority>
+  </url>
+
+  <!-- Gallery Section -->
+  <url>
+    <loc>https://radha-travels-hyd.netlify.app/#gallery</loc>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- Reviews Section -->
+  <url>
+    <loc>https://radha-travels-hyd.netlify.app/#reviews</loc>
+    <priority>0.7</priority>
+  </url>
+
+  <!-- About Us Section -->
+  <url>
+    <loc>https://radha-travels-hyd.netlify.app/#about</loc>
+    <priority>0.7</priority>
+  </url>
+
+</urlset>
