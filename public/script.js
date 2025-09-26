@@ -803,41 +803,32 @@ if (navToggle && navLinks) {
     });
   });
 }
-// === Hero Slider ===
-document.addEventListener("DOMContentLoaded", () => {
-  const slides = document.querySelectorAll(".hero-slide");
-  const dotsContainer = document.querySelector(".hero-dots");
+// === HERO SLIDER ===
+const heroSlides = document.querySelectorAll(".hero-slide");
+const heroDotsContainer = document.querySelector(".hero-dots");
+let heroIndex = 0;
 
-  // Assign CSS variable for images
-  slides.forEach(slide => {
-    const bg = slide.getAttribute("data-bg");
-    slide.style.setProperty("--hero-bg", `url(${bg})`);
-  });
-
-  // Setup dots
-  slides.forEach((_, i) => {
-    const dot = document.createElement("button");
-    if (i === 0) dot.classList.add("active");
-    dot.addEventListener("click", () => showSlide(i));
-    dotsContainer.appendChild(dot);
-  });
-
-  let current = 0;
-  function showSlide(i) {
-    slides[current].classList.remove("active");
-    dotsContainer.children[current].classList.remove("active");
-    slides[i].classList.add("active");
-    dotsContainer.children[i].classList.add("active");
-    current = i;
-  }
-
-  // Auto play
-  setInterval(() => {
-    let next = (current + 1) % slides.length;
-    showSlide(next);
-  }, 5000);
+// Create dots
+heroSlides.forEach((_, i) => {
+  const dot = document.createElement("button");
+  if (i === 0) dot.classList.add("active");
+  dot.addEventListener("click", () => goToHeroSlide(i));
+  heroDotsContainer.appendChild(dot);
 });
+const heroDots = heroDotsContainer.querySelectorAll("button");
 
+function goToHeroSlide(i) {
+  heroSlides[heroIndex].classList.remove("active");
+  heroDots[heroIndex].classList.remove("active");
+  heroIndex = i;
+  heroSlides[heroIndex].classList.add("active");
+  heroDots[heroIndex].classList.add("active");
+}
+
+function nextHeroSlide() {
+  goToHeroSlide((heroIndex + 1) % heroSlides.length);
+}
+setInterval(nextHeroSlide, 6000);
 // === Estimator Drawer ===
 // === Estimator Elements ===
 const estimatorBox = document.getElementById("estimatorBox");
@@ -875,3 +866,46 @@ document.getElementById("openEstimatorMobile")?.addEventListener("click", () => 
   document.getElementById("estimatorBox").classList.add("show");
   document.getElementById("estimatorOverlay").classList.add("show");
 });
+
+// Scroll reveal logic
+(function() {
+  const revealEls = document.querySelectorAll('[data-reveal]');
+  const obs = new IntersectionObserver((entries, o) => {
+    entries.forEach(en => {
+      if (en.isIntersecting) {
+        en.target.classList.add('visible');
+        o.unobserve(en.target);
+      }
+    });
+  }, { threshold: 0.2 });
+  revealEls.forEach(el => obs.observe(el));
+})();
+
+// Counter logic
+(function() {
+  const numEls = document.querySelectorAll('.trend-num');
+  const obs = new IntersectionObserver((entries, o) => {
+    entries.forEach(en => {
+      if (en.isIntersecting) {
+        const el = en.target;
+        const target = +el.dataset.target;
+        let count = 0;
+        const duration = 1200;
+        const stepTime = Math.abs(Math.floor(duration / target));
+        const inc = 1;
+        function update() {
+          count += inc;
+          el.textContent = count;
+          if (count < target) {
+            setTimeout(update, stepTime);
+          } else {
+            el.textContent = target;
+          }
+        }
+        update();
+        o.unobserve(el);
+      }
+    });
+  }, { threshold: 0.3 });
+  numEls.forEach(el => obs.observe(el));
+})();
